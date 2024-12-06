@@ -117,9 +117,9 @@ public class ProjectDAO {
 	            st.setInt(1, userId);
 	            rs = st.executeQuery();
 	            
-	            if (rs.next()) {
+	            while (rs.next()) {
 	            	int id = rs.getInt("id");
-	                int user_Id = rs.getInt("user-id");
+	                int user_Id = rs.getInt("user_id");
 	                String name = rs.getString("name");
 	                String description = rs.getString("description");
 	                String originVideoPath = rs.getString("input_path");

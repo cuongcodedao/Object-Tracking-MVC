@@ -45,6 +45,8 @@ public class ProjectBO {
 	public List<Project> getAllByUserId(int userId){
 		return projectDAO.getAllByUserId(userId);
 	}
+
+
 }
 class Track extends Thread {
     private String inputPath;
@@ -86,7 +88,6 @@ class Track extends Thread {
                     try {
                         double progress = Double.parseDouble(progressStr);
 
-                        // Cập nhật tiến độ cứ sau 30 giây
                         long currentTime = System.currentTimeMillis();
                         if ((currentTime - lastReportedTime) >= 7_000 || progress == 100.0) {
                             updateProgress(progress, project_id);
