@@ -1,4 +1,6 @@
 <%@ page import="model.bean.User" %>
+<%@ page import="model.bean.Project" %>
+<%@ page import="java.util.List" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -100,46 +102,24 @@
         <main class="content">
             <h1>Overview</h1>
             <div class="dashboard-grid">
-                <div class="card" data-video-id="dQw4w9WgXcQ">
-                    <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg" alt="Video Thumbnail" class="thumbnail">
-                    <div class="video-content">
-                        <h2 class="video-title">Video Title</h2>
-                        <p class="video-description">Description</p>
+                <% List<Project> projects = (List<Project>) request.getAttribute("projects");%>
+                <% for(Project project : projects){ %>
+                    <div class="card" data-video-id="dQw4w9WgXcQ">
+                        <a href="project-detail?id=<%=project.getId()%>">
+                            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg" alt="Video Thumbnail" class="thumbnail">
+                            <div class="video-content">
+                                <h2 class="video-title"><%=project.getName()%></h2>
+                                <p class="video-description"><%=project.getDescription()%></p>
+                            </div>
+                            <div class="video-tracking">
+                                <div class="progress-bar">
+                                    <div class="progress"></div>
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                    <div class="video-tracking">
-                        <button class="start-tracking">Start Tracking</button>
-                        <div class="progress-bar">
-                            <div class="progress"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card" data-video-id="9bZkp7q19f0">
-                    <img src="https://img.youtube.com/vi/9bZkp7q19f0/0.jpg" alt="Video Thumbnail" class="thumbnail">
-                    <div class="video-content">
-                        <h2 class="video-title">Vieo Title</h2>
-                        <p class="video-description">Description</p>
-                    </div>
-                    <div class="video-tracking">
-                        <button class="start-tracking">Start Tracking</button>
-                        <div class="progress-bar">
-                            <div class="progress"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card" data-video-id="kJQP7kiw5Fk">
-                    <img src="https://img.youtube.com/vi/kJQP7kiw5Fk/0.jpg" alt="Video Thumbnail" class="thumbnail">
-                    <div class="video-content">
-                        <h2 class="video-title">Video Title</h2>
-                        <p class="video-description">Description</p>
-                    </div>
-                    <div class="video-tracking">
-                        <button class="start-tracking">Start Tracking</button>
-                        <div class="progress-bar">
-                            <div class="progress"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <%}%>
+
         </main>
     </div>
     
@@ -148,7 +128,7 @@
         <div class="modal-content">
             <span class="close" id="closeModal">&times;</span>
             <h2>Create New Project</h2>
-            <form action="project?mod=create&user-id=1" method="post" enctype="multipart/form-data">
+            <form action="project?mod=create&user-id=<%= user.getId()%>" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="name">Project Name:</label>
                     <input type="text" id="name" name="name" required>
