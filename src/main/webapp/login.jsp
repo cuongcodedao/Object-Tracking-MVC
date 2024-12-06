@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +7,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign in</title>
     <link rel="stylesheet" href="style_Login.css">
+    <style>
+        .signup-prompt {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #333;
+        }
+        .signup-button {
+            display: inline-block;
+            margin: 10px auto 0;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .signup-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
 <main>
@@ -40,7 +61,10 @@
             </div>
             <button type="submit" class="login-button">Get Started</button>
         </form>
-
+        <div class="form-links">
+            <p class="signup-prompt">Don't have an account?</p>
+            <a href="register.jsp" class="signup-button">Sign up</a>
+        </div>
         <div class="social-login">
             <p>Or sign in with</p>
             <div class="social-buttons">

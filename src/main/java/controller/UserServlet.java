@@ -47,5 +47,15 @@ public class UserServlet extends HttpServlet {
                 }
             }
         }
+        else if(url.contains("/register")){
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            if(username != null && password != null){
+                if(userBO.register(username, password)){
+                    response.sendRedirect("login");
+                }
+                else response.sendRedirect("register.jsp?error=Registeration is not successful");
+            }
+        }
     }
 }

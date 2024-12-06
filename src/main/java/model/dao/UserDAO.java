@@ -53,4 +53,27 @@ public class UserDAO {
         }
         return user;
     }
+    public boolean register(String username, String password) {
+        PreparedStatement st = null;
+        String sql = "insert into user (username, password) values (?, ?)";
+
+        if (conn != null) {
+            try {
+                st = conn.prepareStatement(sql);
+                st.setString(1, username);
+                st.setString(2, password);
+                st.executeUpdate();
+                return true;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (st != null) st.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return false;
+    }
 }
