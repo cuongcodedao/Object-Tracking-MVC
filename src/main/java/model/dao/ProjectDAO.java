@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.bean.Project;
+import model.bean.YoloVersion;
 
 public class ProjectDAO {
 	static final String DB_URL = "jdbc:mysql://localhost/objecttracking";
@@ -28,7 +29,7 @@ public class ProjectDAO {
 	
 	public int createProject(Project project){
 		PreparedStatement st = null;
-		String sql = "insert into project(user_id, input_path, output_path, progress, name, description) values(?, ?, ?, 0, ?, ?)";
+		String sql = "insert into project(user_id, input_path, output_path, progress, name, description, yolo_version) values(?, ?, ?, 0, ?, ?, ?)";
 		if(conn!=null) {
 			try {
 				st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -37,6 +38,7 @@ public class ProjectDAO {
 				st.setString(3, project.getProcessedVideoPath());
 				st.setString(4, project.getName());
 				st.setString(5, project.getDescription());
+				st.setString(6, project.getYolo_version().name());
 				st.executeUpdate();
 				ResultSet rs = st.getGeneratedKeys();
 				while(rs.next()) {
@@ -85,8 +87,9 @@ public class ProjectDAO {
 	                String originVideoPath = rs.getString("input_path");
 	                String processedVideoPath = rs.getString("output_path");
 	                double progress = rs.getDouble("progress");
+					YoloVersion yoloVersion = YoloVersion.valueOf(rs.getString("yolo_version"));
 
-	                project = new Project(userId, name ,description, originVideoPath, processedVideoPath, progress);
+	                project = new Project(userId, name ,description, originVideoPath, processedVideoPath, progress, yoloVersion);
 	                project.setId(id);
 	                
 	            }
@@ -125,9 +128,9 @@ public class ProjectDAO {
 	                String originVideoPath = rs.getString("input_path");
 	                String processedVideoPath = rs.getString("output_path");
 	                double progress = rs.getDouble("progress");
+					YoloVersion yoloVersion = YoloVersion.valueOf(rs.getString("yolo_version"));
 
-	                Project project  = new Project(id, user_Id, name ,description, originVideoPath, processedVideoPath, progress);
-	                
+					Project project = new Project(userId, name ,description, originVideoPath, processedVideoPath, progress, yoloVersion);
 	                projects.add(project);
 	                
 	            }

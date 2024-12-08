@@ -138,16 +138,28 @@
                     <input type="file" id="file" name="file" accept="video/*" required>
                 </div>
                 <div class="form-group">
-                	<label for="description">Description:</label>
-					<textarea id="description" name="description" rows="10" cols="100">
-					</textarea>
-				</div>
+                    <label for="yoloVersion">Select YOLO Model:</label>
+                    <select id="yoloVersion" name="yoloVersion" required>
+                        <option value="1">YOLOv5</option>
+                        <option value="2">YOLOv6</option>
+                        <option value="3">YOLOv7</option>
+                        <option value="4">YOLOv8</option>
+                        <option value="5">YOLOv9</option>
+                        <option value="6">YOLOv10</option>
+                        <option value="7">YOLOv11</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description" rows="10" cols="100"></textarea>
+                </div>
                 <div class="form-group">
                     <button type="submit">Submit</button>
                 </div>
             </form>
         </div>
     </div>
+
 
     <script>
         // JavaScript to handle modal

@@ -53,9 +53,10 @@ public class ProjectServlet extends HttpServlet {
         	String name = request.getParameter("name");
         	String description = request.getParameter("description");
             String savePath = getServletContext().getRealPath("/videos");
+			String yoloVerId = request.getParameter("yoloVersion");
 
             Part filePart = request.getPart("file");
-            Project project = projectBO.create(savePath, filePart, Integer.parseInt(user_id), name, description);
+            Project project = projectBO.create(savePath, filePart, Integer.parseInt(user_id), name, description, Integer.parseInt(yoloVerId));
             response.sendRedirect("project-detail?id=" + project.getId());
     	}
     }
