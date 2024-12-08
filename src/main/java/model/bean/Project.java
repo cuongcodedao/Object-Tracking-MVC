@@ -4,6 +4,7 @@ public class Project {
 	private int id;
 	private int user_id;
 	private String name;
+	private YoloVersion yolo_version;
 	private String description;
 	private String originVideoPath;
 	private String processedVideoPath;
@@ -39,16 +40,17 @@ public class Project {
 		this.originVideoPath = originVideoPath;
 		this.processedVideoPath = processedVideoPath;
 	}
-	public Project(int user_id, String name, String description, String originVideoPath, String processedVideoPath, double progress) {
+	public Project(int user_id, String name, String description, String originVideoPath, String processedVideoPath, double progress, YoloVersion yolo_version) {
 		this.user_id = user_id;
 		this.originVideoPath = originVideoPath;
 		this.processedVideoPath = processedVideoPath;
 		this.progress = progress;
 		this.name = name;
 		this.description = description;
+		this.yolo_version = yolo_version;
 	}
 	
-	public Project(int id, int user_id, String name, String description, String originVideoPath, String processedVideoPath, double progress) {
+	public Project(int id, int user_id, String name, String description, String originVideoPath, String processedVideoPath, double progress, YoloVersion yolo_version) {
 		this.id = id;
 		this.user_id = user_id;
 		this.originVideoPath = originVideoPath;
@@ -56,6 +58,7 @@ public class Project {
 		this.progress = progress;
 		this.name = name;
 		this.description = description;
+		this.yolo_version = yolo_version;
 	}
 	
 	public double getProgress() {
@@ -76,6 +79,13 @@ public class Project {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
+
+
+    public YoloVersion getYolo_version() {
+        return yolo_version;
+    }
+
+    public void setYolo_version(YoloVersion yolo_version) {
+        this.yolo_version = yolo_version;
+    }
 }

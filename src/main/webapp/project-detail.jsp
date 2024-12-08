@@ -102,9 +102,6 @@
                         <div class="progress" id="progress-bar"></div>
                     </div>
                 </div>
-                <div class="action-links">
-                    <a href="upload.jsp">Tải lên video khác</a>
-                </div>
             </div>
         </main>
     </div>

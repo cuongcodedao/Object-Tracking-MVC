@@ -2,11 +2,11 @@ import imageio
 from ultralytics import YOLO
 import sys
 
-# Đường dẫn mô hình YOLO
+# # Đường dẫn mô hình YOLO
+#
+# model_path = "C:/Users/Dang Van Cuong/Downloads/yolov10n.pt"
 
-model_path = "C:/Users/Dang Van Cuong/Downloads/yolov10n.pt"
-
-def main(video_path, output_path):
+def main(video_path, output_path, model_path):
     # Tải mô hình YOLOv10
     model = YOLO(model_path)
 
@@ -43,4 +43,5 @@ if __name__ == "__main__":
 
     video_path = sys.argv[1]
     output_path = sys.argv[2]
-    main(video_path, output_path)
+    model_path = sys.argv[3]
+    main(video_path, output_path, model_path)
