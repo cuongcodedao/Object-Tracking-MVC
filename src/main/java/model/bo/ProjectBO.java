@@ -22,6 +22,7 @@ public class ProjectBO {
         if (!uploadDir.exists()) {
             uploadDir.mkdir();
         }
+
         String filePath = uploadPath + File.separator + fileName;
         
         try {
@@ -69,8 +70,8 @@ class Track extends Thread {
     private YoloVersion yolover;
 
     private ProjectDAO projectDAO = new ProjectDAO();
-//    private static String pythonScriptPath = "C:\\Users\\Dang Van Cuong\\LTM-workspace\\Object_Tracking_MVC\\python.py";
-    private static String pythonScriptPath = "C:\\Users\\USER\\Desktop\\LTM\\python.py";
+    private static String pythonScriptPath = "C:\\Users\\Dang Van Cuong\\LTM-workspace\\Object_Tracking_MVC\\python.py";
+//    private static String pythonScriptPath = "C:\\Users\\USER\\Desktop\\LTM\\python.py";
 
     public Track(String inputPath, String outputPath, int id, YoloVersion yolover) {
     	this.inputPath = inputPath;

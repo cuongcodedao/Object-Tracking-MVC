@@ -8,6 +8,7 @@ public class UserBO {
     public User login(String username, String password){
         return userDAO.login(username, password);
     }
+
     public boolean register(String username, String password){
         return userDAO.register(username, password);
     }
