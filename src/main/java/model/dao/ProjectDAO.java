@@ -131,7 +131,7 @@ public class ProjectDAO {
 	                double progress = rs.getDouble("progress");
 					YoloVersion yoloVersion = YoloVersion.valueOf(rs.getString("yolo_version"));
 
-					Project project = new Project(userId, name ,description, originVideoPath, processedVideoPath, progress, yoloVersion);
+					Project project = new Project(id, user_Id, name ,description, originVideoPath, processedVideoPath, progress, yoloVersion);
 	                projects.add(project);
 	                
 	            }
