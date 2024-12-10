@@ -134,32 +134,23 @@ h1 {
 }
 
 .card h2 {
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 32px;
+    font-weight: 700;
     margin-bottom: 16px;
+    text-decoration: none;
 }
 
 .card p {
     font-size: 14px;
     color: #606060;
     margin-bottom: 8px;
+    text-decoration: none;
 }
 
 .card h3 {
     font-size: 24px;
     font-weight: 400;
     margin-bottom: 16px;
-}
-
-.card ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-.card li {
-    font-size: 14px;
-    margin-bottom: 8px;
 }
 
 .thumbnail {
@@ -173,6 +164,19 @@ h1 {
     justify-content:flex-start;
     flex-direction:column;
     width: 60%;
+}
+.video-title {
+    font-size: 32px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #1a1a1a;
+    text-transform: capitalize;
+    margin-bottom: 15px;
+}
+.video-description {
+    font-size: 16px;
+    color: #1a1a1a;
+    font-style: italic;
 }
 .video-info {
     display:flex;
@@ -307,9 +311,8 @@ h1 {
   .start-tracking:hover span:after {
     opacity: 1;
   }
-
   main::-webkit-scrollbar {
-    width: 12px; 
+    width: 2px;
     border-radius: 10px; 
   }
   main::-webkit-scrollbar-track {
