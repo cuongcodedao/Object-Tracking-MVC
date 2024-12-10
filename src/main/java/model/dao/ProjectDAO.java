@@ -15,9 +15,10 @@ import model.bean.YoloVersion;
 public class ProjectDAO {
 	static final String DB_URL = "jdbc:mysql://localhost/objecttracking";
 	static final String USER = "root";
-	static final String PASS = "123456";
+//	static final String PASS = "123456";
+	static final String PASS = "Nmdung04@";
 	private Connection conn;
-	
+
 	public ProjectDAO() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");

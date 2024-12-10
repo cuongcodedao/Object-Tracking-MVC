@@ -72,6 +72,62 @@
         .form-group button:hover {
             background-color: #0056b3;
         }
+        .logout {
+            position: relative;
+            padding: 10px 15px;
+            color: #606060;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .logout:hover {
+            color: #065fd4;
+            transition: all 0.3s ease-in;
+        }
+        .card-link {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            text-decoration: none;
+        }
+        .video-content {
+            align-self: flex-start;
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+        }
+
+        .card:hover {
+            box-shadow: 0 10px 18px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+            scale: 1.01;
+        }
+        .card h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-decoration: none;
+            text-transform: capitalize;
+            color: #1a1a1a;
+        }
+        .card p {
+            font-size: 14px;
+            color: #606060;
+            margin-bottom: 8px;
+            text-decoration: none;
+        }
+        .card h3 {
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 16px;
+        }
+
+
+
+
     </style>
 </head>
 <body>
@@ -82,13 +138,14 @@
     <header>
         <div class="header-left">
             <button class="menu-button"><i class="material-icons">menu</i></button>
-            <img src="https://www.gstatic.com/youtube/img/creator/yt_studio_logo.png" alt="O-Tracking" class="logo">
+            <span style="color: #7f56f3; font-size: 24px; font-weight: 500;">O-Tracking</span>
         </div>
         <div class="header-right">
             <button class="create-button" id="openModal"><i class="material-icons">video_call</i> CREATE</button>
-            <i class="material-icons">help_outline</i>
             <i class="material-icons">notifications</i>
+            <a href="#" class="logout">Log out</a>
             <div class="user-avatar">A</div>
+
         </div>
     </header>
     <div class="container">
@@ -105,7 +162,7 @@
                 <% List<Project> projects = (List<Project>) request.getAttribute("projects");%>
                 <% for(Project project : projects){ %>
                     <div class="card" data-video-id="dQw4w9WgXcQ">
-                        <a href="project-detail?id=<%=project.getId()%>">
+                        <a href="project-detail?id=<%=project.getId()%>" class="card-link">
                             <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg" alt="Video Thumbnail" class="thumbnail">
                             <div class="video-content">
                                 <h2 class="video-title"><%=project.getName()%></h2>
