@@ -1,0 +1,6 @@
+ultralytics
+imageio
+imageio[ffmpeg]
+torch
+torchvision
+torchaudio
