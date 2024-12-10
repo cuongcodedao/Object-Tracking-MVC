@@ -85,7 +85,6 @@
 <script>
     const showpass = document.getElementById('togglePass')
     showpass.addEventListener('click', ()=> {
-
         const passinput = document.getElementById('password')
         if (passinput.type === "password") {
             passinput.type = "text";

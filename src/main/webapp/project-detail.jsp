@@ -65,13 +65,31 @@
         .action-links a:hover {
             text-decoration: underline;
         }
+        .return {
+            font-size: 30px;
+            color: #1a1a1a;
+        }
+        .caption {
+            display: flex;
+            justify-content: flex-start;
+            gap: 30px;
+            align-items: center;
+        }
+        .project-heading {
+            margin: 20px;
+            font-size: 24px;
+        }
+        .return:hover {
+            color: #1a1a1a;
+            vertical-align: center;
+        }
     </style>
 </head>
 <body>
     <header>
         <div class="header-left">
             <button class="menu-button"><i class="material-icons">menu</i></button>
-            <img src="https://www.gstatic.com/youtube/img/creator/yt_studio_logo.png" alt="Logo" class="logo">
+            <span style="color: #7f56f3; font-size: 24px; font-weight: 500;">O-Tracking</span>
         </div>
         <div class="header-right">
             <i class="material-icons">help_outline</i>
@@ -88,8 +106,12 @@
             </ul>
         </nav>
         <main class="content">
+
         	<% Project project = (Project) request.getAttribute("project"); %>
-            <h1>Project Detail</h1>
+            <div class="caption">
+                <a href="home" class="return"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
+                <h1 class="project-heading">Project Detail</h1>
+            </div>
             <div class="video-container project-id" id="<%=project.getId() %>">
                 <h1 class="project-name"><%=project.getName() %></h1>
                 <video id="video-player" width="640" height="360" controls>
