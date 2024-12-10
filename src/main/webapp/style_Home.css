@@ -188,7 +188,7 @@ h1 {
 }
 
   main::-webkit-scrollbar {
-    width: 2px;
+    width: 5px;
     border-radius: 10px; 
   }
   main::-webkit-scrollbar-track {

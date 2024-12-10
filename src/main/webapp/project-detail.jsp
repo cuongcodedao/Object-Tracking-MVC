@@ -89,7 +89,7 @@
     <header>
         <div class="header-left">
             <button class="menu-button"><i class="material-icons">menu</i></button>
-            <img src="https://www.gstatic.com/youtube/img/creator/yt_studio_logo.png" alt="Logo" class="logo">
+            <span style="color: #7f56f3; font-size: 24px; font-weight: 500;">O-Tracking</span>
         </div>
         <div class="header-right">
             <i class="material-icons">help_outline</i>
