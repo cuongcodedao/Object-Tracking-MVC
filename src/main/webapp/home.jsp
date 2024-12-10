@@ -163,7 +163,7 @@
                 <% for(Project project : projects){ %>
                     <div class="card" data-video-id="dQw4w9WgXcQ">
                         <a href="project-detail?id=<%=project.getId()%>" class="card-link">
-                            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg" alt="Video Thumbnail" class="thumbnail">
+                            <img src="https://img.youtube.com/vi/Yla5i5tzXKE/0.jpg" alt="Video Thumbnail" class="thumbnail">
                             <div class="video-content">
                                 <h2 class="video-title"><%=project.getName()%></h2>
                                 <p class="video-description"><%=project.getDescription()%></p>
