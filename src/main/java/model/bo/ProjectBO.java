@@ -30,7 +30,7 @@ public class ProjectBO {
 			Project project = new Project(user_id, name, description, fileName, "output_"+ fileName, 0, selectYolo(yolover));
 			int id = projectDAO.createProject(project);
 			project.setId(id);
-	        Track track = new Track(filePath,videoOutputPath , id, project.getYolo_version());
+	        Track track = new Track(filePath, videoOutputPath, id, project.getYolo_version());
 	        track.start();
 			return projectDAO.getById(id);
 		} catch (IOException e) {
