@@ -40,15 +40,29 @@ public class ProjectServlet extends HttpServlet {
 			}
     	}
     	else if(url.contains("/project-detail")) {
-			String id = req.getParameter("id");
-			Project project = projectBO.getById(Integer.parseInt(id));
-			req.setAttribute("project", project);
-			req.getRequestDispatcher("project-detail.jsp").forward(req, res);
+			String mod = req.getParameter("mod");
+			if(mod!=null){
+				if(mod.equals("tracking")){
+					String id = req.getParameter("id");
+					projectBO.tracking(Integer.parseInt(id));
+				}
+				else if(mod.equals("cancel")){
+					String id = req.getParameter("id");
+					projectBO.cancelTracking(Integer.parseInt(id));
+				}
+
+			}
+			else{
+				String id = req.getParameter("id");
+				Project project = projectBO.getById(Integer.parseInt(id));
+				req.setAttribute("project", project);
+				req.getRequestDispatcher("project-detail.jsp").forward(req, res);
+			}
 		}
 	}
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	String mod = request.getParameter("mod");
-    	if(mod.equals("create")) {
+    	if(mod!=null && mod.equals("create")) {
     		String user_id = request.getParameter("user-id");
         	String name = request.getParameter("name");
         	String description = request.getParameter("description");
