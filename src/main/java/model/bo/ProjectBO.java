@@ -4,9 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.List;
-import java.util.Stack;
-import java.util.UUID;
+import java.util.*;
 
 import javax.servlet.http.Part;
 
@@ -15,6 +13,7 @@ import model.bean.YoloVersion;
 import model.dao.ProjectDAO;
 
 public class ProjectBO {
+    private static Set<Track> tracks = new HashSet<>();
 	private ProjectDAO projectDAO = new ProjectDAO();
 	public Project create(String uploadPath, Part part, int user_id, String name, String description, int yolover) {
         File uploadDir = new File(uploadPath);
@@ -27,17 +26,35 @@ public class ProjectBO {
         try {
 			part.write(filePath);
 			String videoOutputPath = uploadPath + File.separator + "output_"+ fileName;
-			Project project = new Project(user_id, name, description, fileName, "output_"+ fileName, 0, selectYolo(yolover));
+			Project project = new Project(user_id, name, description, filePath, videoOutputPath, 0, selectYolo(yolover));
 			int id = projectDAO.createProject(project);
-			project.setId(id);
-	        Track track = new Track(filePath, videoOutputPath, id, project.getYolo_version());
-	        track.start();
 			return projectDAO.getById(id);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
         return null;
 	}
+    public void tracking(int project_id){
+        Project project = projectDAO.getById(project_id);
+        for(Track track: tracks){
+            if(track.getProject_id()==project_id){
+                if(!track.isAlive()) track.start();
+                return;
+            }
+        }
+        Track track = new Track(project.getOriginVideoPath(), project.getProcessedVideoPath(), project_id, project.getYolo_version());
+        tracks.add(track);
+        track.start();
+    }
+
+    public void cancelTracking(int project_id){
+        for(Track track: tracks){
+            if(track.getProject_id()==project_id){
+                if(track.isAlive()) track.interrupt();
+                return;
+            }
+        }
+    }
 
     private YoloVersion selectYolo(int yoloId){
         return switch (yoloId) {
@@ -68,9 +85,13 @@ class Track extends Thread {
     private int project_id;
     private YoloVersion yolover;
 
+    public int getProject_id(){
+        return this.project_id;
+    }
+
     private ProjectDAO projectDAO = new ProjectDAO();
-//    private static String pythonScriptPath = "C:\\Users\\Dang Van Cuong\\LTM-workspace\\Object_Tracking_MVC\\python.py";
-    private static String pythonScriptPath = "C:\\Users\\USER\\Desktop\\LTM\\python.py";
+    private static String pythonScriptPath = "C:\\Users\\Dang Van Cuong\\LTM-workspace\\Object_Tracking_MVC\\python.py";
+//    private static String pythonScriptPath = "C:\\Users\\USER\\Desktop\\LTM\\python.py";
 
     public Track(String inputPath, String outputPath, int id, YoloVersion yolover) {
     	this.inputPath = inputPath;
