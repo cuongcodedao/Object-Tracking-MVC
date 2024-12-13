@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="model.bean.Project" %>
+<%@ page import="model.bean.ProjectStatus" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,6 +19,7 @@
             border-radius: 8px;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
+            position: relative;
         }
 
         .video-container h1 {
@@ -33,8 +35,12 @@
         }
 
         .progress-container {
+            display: none;
             margin-top: 10px;
             font-size: 16px;
+        }
+        .progress-container.active{
+            display: block;
         }
 
         .progress-bar {
@@ -83,6 +89,32 @@
             color: #1a1a1a;
             vertical-align: center;
         }
+
+        .tracking-btn, .cancel-btn {
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            color: #fff;
+            font-weight: bold;
+            position: absolute;
+            right: 20px;
+            top: 20px;
+        }
+
+        .tracking-btn {
+            background-color: #007bff;
+        }
+
+        .cancel-btn {
+            background-color: #f15a5a;
+        }
+
+        .tracking-btn:hover, .cancel-btn:hover {
+            opacity: 0.9;
+        }
+
     </style>
 </head>
 <body>
@@ -112,16 +144,18 @@
                 <a href="home" class="return"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
                 <h1 class="project-heading">Project Detail</h1>
             </div>
+
             <div class="video-container project-id" id="<%=project.getId() %>">
+                <button type="button" class="<%=project.getStatus()==ProjectStatus.TRACKING?"cancel-btn":"tracking-btn" %>" onclick="trackingCancelToggle(this)"><%=project.getStatus()==ProjectStatus.TRACKING?"Cancel":"Track" %></button>
                 <h1 class="project-name"><%=project.getName() %></h1>
                 <video id="video-player" width="640" height="360" controls>
-                    <source id="video-source" src="" type="video/mp4">
+                    <source id="video-source" src="videos/<%=project.getStatus()==ProjectStatus.FINISHED?project.getProcessedVideoPath():project.getOriginVideoPath() %>" type="video/mp4">
                     Trình duyệt không hỗ trợ xem video.
                 </video>
-                <div class="progress-container">
-                    <p>Tiến độ xử lý: <span id="progress">Đang chờ...</span></p>
+                <div class="progress-container <%=project.getStatus()==ProjectStatus.TRACKING?"active":""%>">
+                    <p>Tiến độ xử lý: <span id="progress"><%=project.getProgress()%>%</span></p>
                     <div class="progress-bar">
-                        <div class="progress" id="progress-bar"></div>
+                        <div class="progress" id="progress-bar" style="width: <%=project.getProgress()+"%"%>"></div>
                     </div>
                 </div>
             </div>
@@ -136,32 +170,62 @@
         const videoSourceElement = document.getElementById("video-source");
         const videoPlayer = document.getElementById("video-player");
         const nameProject = document.querySelector(".project-name");
+        const progressContainer = document.querySelector(".progress-container");
+        var intervalId;
+        function trackingCancelToggle(element) {
+            const xhr = new XMLHttpRequest();
+            const url = element.classList.contains("tracking-btn")
+                ? 'project-detail?mod=tracking&id=' + projectId
+                : 'project-detail?mod=cancel&id=' + projectId;
+
+            xhr.open("GET", url, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    if (element.classList.contains("tracking-btn")) {
+                        element.classList.remove("tracking-btn");
+                        progressContainer.classList.add("active");
+                        element.classList.add("cancel-btn");
+                        element.textContent = "Cancel";
+                        clearInterval(intervalId);
+                        intervalId = setInterval(fetchProjectStatus, 5000);
+                    } else {
+                        element.classList.remove("cancel-btn");
+                        element.classList.add("tracking-btn");
+                        element.textContent = "Track";
+                        progressContainer.classList.remove("active");
+                        clearInterval(intervalId);
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+
 
         function fetchProjectStatus() {
             fetch('project-progress?id=' + projectId)
                 .then(response => response.json())
                 .then(data => {
-                    // Update progress
                     progressElement.textContent = data.progress + '%';
                     progressBar.style.width = data.progress + '%';
-                    // Update video source if processing is done
-                    if (data.processedVideoPath && videoSourceElement.src !== "videos/" + data.processedVideoPath) {
+                    if (data.processedVideoPath) {
                         videoSourceElement.src = "videos/" + data.processedVideoPath;
-                        if (data.progress == 100) videoPlayer.load();
+                        if (data.progress == 100){
+                            videoPlayer.load();
+                        }
                     }
 
-                    // Stop polling when progress reaches 100%
-                    if (data.progress == 100) {
+                    if (data.progress == 100 && data.status=="FINISHED") {
                         clearInterval(intervalId);
+                        window.location.reload();
                     }
+
                 })
                 .catch(error => {
                     console.error("Lỗi khi lấy tiến độ:", error);
                     progressElement.textContent = "Lỗi kết nối.";
                 });
         }
-        fetchProjectStatus();
-        const intervalId = setInterval(fetchProjectStatus, 5000);
     </script>
 </body>
 </html>
