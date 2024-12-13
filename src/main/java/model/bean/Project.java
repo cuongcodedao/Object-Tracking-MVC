@@ -8,6 +8,8 @@ public class Project {
 	private String description;
 	private String originVideoPath;
 	private String processedVideoPath;
+	private ProjectStatus status;
+
 	
 	private double progress;
 	
@@ -40,7 +42,7 @@ public class Project {
 		this.originVideoPath = originVideoPath;
 		this.processedVideoPath = processedVideoPath;
 	}
-	public Project(int user_id, String name, String description, String originVideoPath, String processedVideoPath, double progress, YoloVersion yolo_version) {
+	public Project(int user_id, String name, String description, String originVideoPath, String processedVideoPath, double progress, YoloVersion yolo_version, ProjectStatus projectStatus) {
 		this.user_id = user_id;
 		this.originVideoPath = originVideoPath;
 		this.processedVideoPath = processedVideoPath;
@@ -48,9 +50,10 @@ public class Project {
 		this.name = name;
 		this.description = description;
 		this.yolo_version = yolo_version;
+		this.status = projectStatus;
 	}
 	
-	public Project(int id, int user_id, String name, String description, String originVideoPath, String processedVideoPath, double progress, YoloVersion yolo_version) {
+	public Project(int id, int user_id, String name, String description, String originVideoPath, String processedVideoPath, double progress, YoloVersion yolo_version, ProjectStatus projectStatus) {
 		this.id = id;
 		this.user_id = user_id;
 		this.originVideoPath = originVideoPath;
@@ -59,6 +62,7 @@ public class Project {
 		this.name = name;
 		this.description = description;
 		this.yolo_version = yolo_version;
+		this.status = projectStatus;
 	}
 	
 	public double getProgress() {
@@ -88,4 +92,12 @@ public class Project {
     public void setYolo_version(YoloVersion yolo_version) {
         this.yolo_version = yolo_version;
     }
+
+	public ProjectStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(ProjectStatus status) {
+		this.status = status;
+	}
 }
