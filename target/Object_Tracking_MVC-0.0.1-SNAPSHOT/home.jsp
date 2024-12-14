@@ -170,8 +170,12 @@
                             </div>
                             <div class="video-tracking">
                                 <div class="progress-bar">
-                                    <div class="progress">000</div>
+                                    <div class="progress"></div>
                                 </div>
+                            </div>
+                            <div class="action">
+                                <button type="button" class="edit-btn"></button>
+                                <button type="button" class="delete-btn"></button>
                             </div>
                         </a>
                     </div>
@@ -217,6 +221,36 @@
         </div>
     </div>
 
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Edit Project</h2>
+            <form id="editForm">
+                <input type="hidden" id="editProjectId">
+                <div class="form-group">
+                    <label for="editProjectName">Project Name</label>
+                    <input type="text" id="editProjectName" required>
+                </div>
+                <div class="form-group">
+                    <label for="editProjectDescription">Project Description</label>
+                    <textarea id="editProjectDescription" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Confirm Deletion</h2>
+            <p>Are you sure you want to delete this project?</p>
+            <button id="confirmDelete" class="btn btn-danger">Delete</button>
+            <button id="cancelDelete" class="btn">Cancel</button>
+        </div>
+    </div>
 
     <script>
         // JavaScript to handle modal
@@ -238,5 +272,6 @@
             }
         };
     </script>
+<script src="home.js"></script>
 </body>
 </html>
