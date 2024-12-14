@@ -174,8 +174,8 @@
                                 </div>
                             </div>
                             <div class="action">
-                                <button type="button" class="edit-btn"></button>
-                                <button type="button" class="delete-btn"></button>
+                                <button type="button" class="edit-btn"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                <button type="button" class="delete-btn"><i class="fa fa-trash" aria-hidden="true"></i></button>
                             </div>
                         </a>
                     </div>

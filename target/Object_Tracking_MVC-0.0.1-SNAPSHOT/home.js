@@ -1,131 +1,85 @@
+document.addEventListener('DOMContentLoaded', function() {
+    const editModal = document.getElementById('editModal');
+    const deleteModal = document.getElementById('deleteModal');
+    const editForm = document.getElementById('editForm');
+    const editProjectId = document.getElementById('editProjectId');
+    const editProjectName = document.getElementById('editProjectName');
+    const editProjectDescription = document.getElementById('editProjectDescription');
+    const confirmDeleteBtn = document.getElementById('confirmDelete');
+    const cancelDeleteBtn = document.getElementById('cancelDelete');
 
-const API_KEY = 'YOUR_YOUTUBE_API_KEY';
+    let currentProjectId = null;
 
-
-function loadClient() {
-    gapi.client.setApiKey(API_KEY);
-    return gapi.client.load("https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest")
-        .then(function() { 
-            console.log("GAPI client loaded for API");
-            execute();
-        },
-        function(err) { 
-            console.error("Error loading GAPI client for API", err);
-        });
-}
-
-
-function execute() {
-    const cards = document.getElementsByClassName('card');
-    for (let card of cards) {
-        const videoId = card.getAttribute('data-video-id');
-        gapi.client.youtube.videos.list({
-            "part": [
-                "snippet"
-            ],
-            "id": [
-                videoId
-            ]
-        })
-        .then(function(response) {
-            const videoData = response.result.items[0].snippet;
-            card.querySelector('.video-title').textContent = videoData.title;
-            card.querySelector('.video-description').textContent = 
-                videoData.description.length > 100 ? 
-                videoData.description.substring(0, 100) + '...' : 
-                videoData.description;
-        },
-        function(err) { 
-            console.error("Execute error", err);
-            card.querySelector('.video-title').textContent = "Error loading video data";
-            card.querySelector('.video-description').textContent = "Please try again later";
-        });
+    function showModal(modal) {
+        modal.style.display = 'block';
+        setTimeout(() => modal.classList.add('show'), 10);
     }
-}
 
+    function hideModal(modal) {
+        modal.classList.remove('show');
+        setTimeout(() => modal.style.display = 'none', 300);
+    }
 
-gapi.load("client", loadClient);
+    // Edit button click handler
+    document.querySelectorAll('.edit-btn').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const card = this.closest('.card');
+            const projectId = card.getAttribute('data-project-id');
+            const projectName = card.querySelector('.video-title').textContent;
+            const projectDescription = card.querySelector('.video-description').textContent;
 
+            editProjectId.value = projectId;
+            editProjectName.value = projectName;
+            editProjectDescription.value = projectDescription;
 
-const modal = document.getElementById("videoModal");
+            showModal(editModal);
+        });
+    });
 
+    // Delete button click handler
+    document.querySelectorAll('.delete-btn').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            currentProjectId = this.closest('.card').getAttribute('data-project-id');
+            showModal(deleteModal);
+        });
+    });
 
-const span = document.getElementsByClassName("close")[0];
+    // Edit form submit handler
+    editForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        // Here you would typically send an AJAX request to update the project
+        // For demonstration, we'll just update the card content
+        const projectId = editProjectId.value;
+        const card = document.querySelector(`.card[data-project-id="${projectId}"]`);
+        card.querySelector('.video-title').textContent = editProjectName.value;
+        card.querySelector('.video-description').textContent = editProjectDescription.value;
 
+        hideModal(editModal);
+    });
 
-const cards = document.getElementsByClassName("card");
+    // Confirm delete handler
+    confirmDeleteBtn.addEventListener('click', function() {
+        // Here you would typically send an AJAX request to delete the project
+        // For demonstration, we'll just remove the card from the DOM
+        const card = document.querySelector(`.card[data-project-id="${currentProjectId}"]`);
+        card.remove();
+        hideModal(deleteModal);
+    });
 
+    // Cancel delete handler
+    cancelDeleteBtn.addEventListener('click', function() {
+        hideModal(deleteModal);
+    });
 
-const iframe = document.getElementById("videoIframe");
-
-
-for (let card of cards) {
-    card.addEventListener('click', function(event) {
-        if (!event.target.classList.contains('start-tracking')) {
-            const videoId = this.getAttribute("data-video-id");
-            iframe.src = "https://www.youtube.com/embed/" + videoId;
-            modal.style.display = "block";
+    // Close modal when clicking on the close button or outside the modal
+    window.addEventListener('click', function(event) {
+        if (event.target.classList.contains('close') || event.target === editModal || event.target === deleteModal) {
+            hideModal(editModal);
+            hideModal(deleteModal);
         }
     });
-}
-
-
-span.onclick = function() {
-    modal.style.display = "none";
-    iframe.src = "";
-}
-
-
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-        iframe.src = "";
-    }
-}
-
-
-const startButtons = document.getElementsByClassName("start-tracking");
-
-
-function simulateTracking(button, progressBar) {
-    let progress = 0;
-    button.disabled = true;
-    button.textContent = 'Tracking...';
-
-    const interval = setInterval(function() {
-        progress += 1;
-        progressBar.style.width = progress + '%';
-        if (progress >= 100) {
-            clearInterval(interval);
-            button.textContent = 'Tracking Complete';
-            button.disabled = false;
-        }
-    }, 50);
-}
-
-
-for (let button of startButtons) {
-    button.addEventListener('click', function() {
-        const card = this.closest('.card');
-        const progressBar = card.querySelector('.progress');
-        simulateTracking(this, progressBar);
-    });
-}
-
-
-function truncateText(element, maxLength) {
-    if (element.textContent.length > maxLength) {
-        element.textContent = element.textContent.substring(0, maxLength) + '...';
-    }
-}
-
-
-function truncateDescriptions() {
-    const descriptions = document.getElementsByClassName('video-description');
-    for (let description of descriptions) {
-        truncateText(description, 100);
-    }
-}
-
-
-setTimeout(truncateDescriptions, 1000);
+});
