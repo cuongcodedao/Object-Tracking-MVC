@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Object Tracking</title>
-    <link rel="stylesheet" href="style_Home.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/style_Home.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
@@ -170,7 +170,7 @@
                             </div>
                             <div class="video-tracking">
                                 <div class="progress-bar">
-                                    <div class="progress"></div>
+                                    <div class="progress">000</div>
                                 </div>
                             </div>
                         </a>
