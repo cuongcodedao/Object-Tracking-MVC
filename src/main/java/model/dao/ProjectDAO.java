@@ -10,13 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.bean.Project;
+import model.bean.ProjectStatus;
 import model.bean.YoloVersion;
 
 public class ProjectDAO {
 	static final String DB_URL = "jdbc:mysql://localhost/objecttracking";
 	static final String USER = "root";
-//	static final String PASS = "123456";
-	static final String PASS = "Nmdung04@";
+	static final String PASS = "123456";
+//	static final String PASS = "Nmdung04@";
 	private Connection conn;
 
 	public ProjectDAO() {
@@ -30,7 +31,7 @@ public class ProjectDAO {
 	
 	public int createProject(Project project){
 		PreparedStatement st = null;
-		String sql = "insert into project(user_id, input_path, output_path, progress, name, description, yolo_version) values(?, ?, ?, 0, ?, ?, ?)";
+		String sql = "insert into project(user_id, input_path, output_path, progress, name, description, yolo_version, status) values(?, ?, ?, 0, ?, ?, ?, ?)";
 		if(conn!=null) {
 			try {
 				st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -40,6 +41,7 @@ public class ProjectDAO {
 				st.setString(4, project.getName());
 				st.setString(5, project.getDescription());
 				st.setString(6, project.getYolo_version().name());
+				st.setString(7, project.getStatus().name());
 				st.executeUpdate();
 				ResultSet rs = st.getGeneratedKeys();
 				while(rs.next()) {
@@ -68,6 +70,22 @@ public class ProjectDAO {
 		}
 
 	}
+	public void updateStatus(ProjectStatus status, int id) {
+		PreparedStatement st = null;
+		String sql = "update project set status = ? where id = ?";
+		if(conn!=null) {
+			try {
+				st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				st.setString(1, status.name());
+				st.setInt(2, id);
+				st.executeUpdate();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
 
 	public Project getById(int id) {
 	    PreparedStatement st = null;
@@ -89,8 +107,9 @@ public class ProjectDAO {
 	                String processedVideoPath = rs.getString("output_path");
 	                double progress = rs.getDouble("progress");
 					YoloVersion yoloVersion = YoloVersion.valueOf(rs.getString("yolo_version"));
+					ProjectStatus status = ProjectStatus.valueOf(rs.getString("status"));
 
-	                project = new Project(userId, name ,description, originVideoPath, processedVideoPath, progress, yoloVersion);
+	                project = new Project(userId, name ,description, originVideoPath, processedVideoPath, progress, yoloVersion, status);
 	                project.setId(id);
 	                
 	            }
@@ -130,8 +149,9 @@ public class ProjectDAO {
 	                String processedVideoPath = rs.getString("output_path");
 	                double progress = rs.getDouble("progress");
 					YoloVersion yoloVersion = YoloVersion.valueOf(rs.getString("yolo_version"));
+					ProjectStatus status = ProjectStatus.valueOf(rs.getString("status"));
 
-					Project project = new Project(id, user_Id, name ,description, originVideoPath, processedVideoPath, progress, yoloVersion);
+					Project project = new Project(id, user_Id, name ,description, originVideoPath, processedVideoPath, progress, yoloVersion, status);
 	                projects.add(project);
 	                
 	            }

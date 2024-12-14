@@ -4,42 +4,69 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.List;
-import java.util.Stack;
-import java.util.UUID;
-
+import java.util.*;
 import javax.servlet.http.Part;
+import javax.xml.crypto.dsig.spec.XPathFilterParameterSpec;
 
 import model.bean.Project;
+import model.bean.ProjectStatus;
 import model.bean.YoloVersion;
 import model.dao.ProjectDAO;
 
 public class ProjectBO {
-	private ProjectDAO projectDAO = new ProjectDAO();
-	public Project create(String uploadPath, Part part, int user_id, String name, String description, int yolover) {
+    private static Set<Track> tracks = new HashSet<>();
+    private ProjectDAO projectDAO = new ProjectDAO();
+
+    public Project create(String uploadPath, Part part, int user_id, String name, String description, int yolover) {
         File uploadDir = new File(uploadPath);
-        String fileName =UUID.randomUUID().toString() + part.getSubmittedFileName();
+        String fileName = UUID.randomUUID().toString() + part.getSubmittedFileName();
         if (!uploadDir.exists()) {
             uploadDir.mkdir();
         }
         String filePath = uploadPath + File.separator + fileName;
-        
-        try {
-			part.write(filePath);
-			String videoOutputPath = uploadPath + File.separator + "output_"+ fileName;
-			Project project = new Project(user_id, name, description, fileName, "output_"+ fileName, 0, selectYolo(yolover));
-			int id = projectDAO.createProject(project);
-			project.setId(id);
-	        Track track = new Track(filePath, videoOutputPath, id, project.getYolo_version());
-	        track.start();
-			return projectDAO.getById(id);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-        return null;
-	}
 
-    private YoloVersion selectYolo(int yoloId){
+        try {
+            part.write(filePath);
+            String videoOutputPath = uploadPath + File.separator + "output_" + fileName;
+            Project project = new Project(user_id, name, description, filePath, videoOutputPath, 0, selectYolo(yolover), ProjectStatus.UNFINISHED);
+            int id = projectDAO.createProject(project);
+            return projectDAO.getById(id);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void tracking(int project_id) {
+        Project project = projectDAO.getById(project_id);
+        projectDAO.updateStatus(ProjectStatus.TRACKING, project_id);
+        for (Track track : tracks) {
+            if (track.getProject_id() == project_id) {
+                if (!track.isAlive()) tracks.remove(track);
+            }
+        }
+        Track track = new Track(project.getOriginVideoPath(), project.getProcessedVideoPath(), project_id, project.getYolo_version());
+        tracks.add(track);
+        track.start();
+    }
+
+    public void cancelTracking(int project_id) {
+        Project project = projectDAO.getById(project_id);
+        if (project.getStatus() == ProjectStatus.TRACKING) {
+            projectDAO.updateStatus(ProjectStatus.UNFINISHED, project_id);
+        }
+        for (Track track : tracks) {
+            if (track.getProject_id() == project_id) {
+                if (track.isAlive()) {
+                    track.interrupt();
+                    System.out.println("Track thread interrupted for project ID: " + project_id);
+                }
+                return;
+            }
+        }
+    }
+
+    private YoloVersion selectYolo(int yoloId) {
         return switch (yoloId) {
             case 1 -> YoloVersion.YOLOV5;
             case 2 -> YoloVersion.YOLOV6;
@@ -51,39 +78,47 @@ public class ProjectBO {
             default -> null;
         };
     }
-	
-	public Project getById(int id) {
-		return projectDAO.getById(id);
-	}
-	
-	public List<Project> getAllByUserId(int userId){
-		return projectDAO.getAllByUserId(userId);
-	}
+    private String getFileNameFromPath(String path){
+        String[] parts = path.split("\\\\");
+        return parts[parts.length-1];
+    }
 
+    public Project getById(int id) {
+        Project project = projectDAO.getById(id);
+        project.setOriginVideoPath(getFileNameFromPath(project.getOriginVideoPath()));
+        project.setProcessedVideoPath(getFileNameFromPath(project.getProcessedVideoPath()));
+        return project;
+    }
 
+    public List<Project> getAllByUserId(int userId) {
+        return projectDAO.getAllByUserId(userId);
+    }
 }
+
 class Track extends Thread {
     private String inputPath;
     private String outputPath;
     private int project_id;
     private YoloVersion yolover;
-
     private ProjectDAO projectDAO = new ProjectDAO();
-//    private static String pythonScriptPath = "C:\\Users\\Dang Van Cuong\\LTM-workspace\\Object_Tracking_MVC\\python.py";
-    private static String pythonScriptPath = "C:\\Users\\USER\\Desktop\\LTM\\python.py";
+    private static final String pythonScriptPath = "C:\\Users\\Dang Van Cuong\\LTM-workspace\\Object_Tracking_MVC\\python.py";
 
     public Track(String inputPath, String outputPath, int id, YoloVersion yolover) {
-    	this.inputPath = inputPath;
-    	this.outputPath = outputPath;
-    	this.project_id = id;
+        this.inputPath = inputPath;
+        this.outputPath = outputPath;
+        this.project_id = id;
         this.yolover = yolover;
+    }
+
+    public int getProject_id() {
+        return this.project_id;
     }
 
     @Override
     public void run() {
         try {
             ProcessBuilder pb = new ProcessBuilder(
-                "python",
+                    "python",
                     pythonScriptPath,
                     inputPath,
                     outputPath,
@@ -95,10 +130,16 @@ class Track extends Thread {
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
 
-            double lastReportedProgress = 0.0; // Tiến độ lần cuối được cập nhật
-            long lastReportedTime = System.currentTimeMillis(); // Thời điểm lần cuối được cập nhật
+            double lastReportedProgress = 0.0;
+            long lastReportedTime = System.currentTimeMillis();
 
             while ((line = reader.readLine()) != null) {
+                if (Thread.currentThread().isInterrupted()) {
+                    process.destroy();
+                    System.out.println("Tracking interrupted for project ID: " + project_id);
+                    return;
+                }
+
                 System.out.println(line);
 
                 if (line.startsWith("PROGRESS:")) {
@@ -114,17 +155,19 @@ class Track extends Thread {
                         }
 
                     } catch (NumberFormatException e) {
-                        System.err.println("Không thể phân tích tiến độ: " + line);
+                        System.err.println("Cannot parse progress: " + line);
                     }
                 }
             }
 
             int exitCode = process.waitFor();
             if (exitCode == 0) {
-                System.out.println("Xử lý video hoàn tất. Video lưu tại: " + outputPath);
-                updateProgress(100.0, project_id); // Tiến độ hoàn tất
+                System.out.println("Video processing completed. Video saved at: " + outputPath);
+                updateProgress(100.0, project_id);
+                this.interrupt();
+                process.destroy();
             } else {
-                System.out.println("Đã xảy ra lỗi trong quá trình xử lý.");
+                System.out.println("Error occurred during processing.");
             }
 
         } catch (Exception e) {
@@ -132,8 +175,10 @@ class Track extends Thread {
         }
     }
 
-
     private void updateProgress(double progress, int id) {
-    	projectDAO.updateProgress(progress, id);
+        projectDAO.updateProgress(progress, id);
+        if (progress == 100) {
+            projectDAO.updateStatus(ProjectStatus.FINISHED, project_id);
+        }
     }
 }
