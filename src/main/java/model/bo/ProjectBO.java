@@ -93,6 +93,14 @@ public class ProjectBO {
     public List<Project> getAllByUserId(int userId) {
         return projectDAO.getAllByUserId(userId);
     }
+
+    public void update(Project project){
+        projectDAO.updateProject(project);
+    }
+
+    public void delete(int id){
+        projectDAO.deleteProject(id);
+    }
 }
 
 class Track extends Thread {

@@ -152,8 +152,6 @@
         <nav class="sidebar">
             <ul>
                 <li class="active"><i class="material-icons">dashboard</i> Dashboard</li>
-                <li><i class="material-icons">content_copy</i> Content</li>
-                <li><i class="material-icons">analytics</i> Analytics</li>
             </ul>
         </nav>
         <main class="content">
@@ -174,7 +172,6 @@
                                 </div>
                             </div>
                             <div class="action">
-                                <button type="button" class="edit-btn"><i class="fa fa-pencil" aria-hidden="true"></i></button>
                                 <button type="button" class="delete-btn"><i class="fa fa-trash" aria-hidden="true"></i></button>
                             </div>
                         </a>
@@ -226,7 +223,7 @@
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Edit Project</h2>
-            <form id="editForm">
+            <form id="editForm" action="project?id=">
                 <input type="hidden" id="editProjectId">
                 <div class="form-group">
                     <label for="editProjectName">Project Name</label>
@@ -267,7 +264,7 @@
         };
 
         window.onclick = function(event) {
-            if (event.target === modal) {
+            if (event.target === modal1) {
                 modal1.style.display = "none";
             }
         };

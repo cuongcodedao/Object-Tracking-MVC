@@ -70,6 +70,67 @@ public class ProjectDAO {
 		}
 
 	}
+	public boolean updateProject(Project project) {
+		PreparedStatement st = null;
+		String sql = "UPDATE project SET user_id = ?, input_path = ?, output_path = ?, name = ?, description = ?, yolo_version = ?, status = ?, progress = ? WHERE id = ?";
+		boolean updated = false;
+
+		if (conn != null) {
+			try {
+				st = conn.prepareStatement(sql);
+				st.setInt(1, project.getUser_id());
+				st.setString(2, project.getOriginVideoPath());
+				st.setString(3, project.getProcessedVideoPath());
+				st.setString(4, project.getName());
+				st.setString(5, project.getDescription());
+				st.setString(6, project.getYolo_version().name());
+				st.setString(7, project.getStatus().name());
+				st.setDouble(8, project.getProgress());
+				st.setInt(9, project.getId());
+
+				int rowsAffected = st.executeUpdate();
+				updated = rowsAffected > 0;
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (st != null) st.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return updated;
+	}
+	public boolean deleteProject(int id) {
+		PreparedStatement st = null;
+		String sql = "DELETE FROM project WHERE id = ?";
+		boolean deleted = false;
+
+		if (conn != null) {
+			try {
+				st = conn.prepareStatement(sql);
+				st.setInt(1, id);
+
+				int rowsAffected = st.executeUpdate();
+				deleted = rowsAffected > 0;
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (st != null) st.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return deleted;
+	}
+
+
+
 	public void updateStatus(ProjectStatus status, int id) {
 		PreparedStatement st = null;
 		String sql = "update project set status = ? where id = ?";
