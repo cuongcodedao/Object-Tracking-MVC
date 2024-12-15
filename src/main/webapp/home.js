@@ -75,3 +75,59 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+
+
+
+
+
+
+const modal = document.getElementById("videoModal");
+const span = document.getElementsByClassName("close")[0];
+const cards = document.getElementsByClassName("card");
+const iframe = document.getElementById("videoIframe");
+
+for (let card of cards) {
+    card.addEventListener('click', function(event) {
+        if (!event.target.classList.contains('start-tracking')) {
+            const videoId = this.getAttribute("data-video-id");
+            iframe.src = "https://www.youtube.com/embed/" + videoId;
+            modal.style.display = "block";
+        }
+    });
+}
+span.onclick = function() {
+    modal.style.display = "none";
+    iframe.src = "";
+}
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+        iframe.src = "";
+    }
+}
+const startButtons = document.getElementsByClassName("start-tracking");
+function simulateTracking(button, progressBar) {
+    let progress = 0;
+    button.disabled = true;
+    button.textContent = 'Tracking...';
+
+    const interval = setInterval(function() {
+        progress += 1;
+        progressBar.style.width = progress + '%';
+        if (progress >= 100) {
+            clearInterval(interval);
+            button.textContent = 'Tracking Complete';
+            button.disabled = false;
+        }
+    }, 50);
+}
+
+
+for (let button of startButtons) {
+    button.addEventListener('click', function() {
+        const card = this.closest('.card');
+        const progressBar = card.querySelector('.progress');
+        simulateTracking(this, progressBar);
+    });
+}
