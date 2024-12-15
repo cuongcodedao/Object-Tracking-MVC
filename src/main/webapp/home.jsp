@@ -260,6 +260,7 @@
 
         openModalBtn.onclick = function() {
             modal1.style.display = "block";
+            modal1.classList.toggle("show")
         };
 
         closeModalBtn.onclick = function() {

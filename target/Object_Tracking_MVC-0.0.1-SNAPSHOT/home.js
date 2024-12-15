@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => modal.style.display = 'none', 300);
     }
 
-    // Edit button click handler
     document.querySelectorAll('.edit-btn').forEach(button => {
         button.addEventListener('click', function(e) {
             e.preventDefault();
@@ -38,7 +37,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Delete button click handler
     document.querySelectorAll('.delete-btn').forEach(button => {
         button.addEventListener('click', function(e) {
             e.preventDefault();
@@ -51,8 +49,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Edit form submit handler
     editForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        // Here you would typically send an AJAX request to update the project
-        // For demonstration, we'll just update the card content
         const projectId = editProjectId.value;
         const card = document.querySelector(`.card[data-project-id="${projectId}"]`);
         card.querySelector('.video-title').textContent = editProjectName.value;
@@ -61,21 +57,17 @@ document.addEventListener('DOMContentLoaded', function() {
         hideModal(editModal);
     });
 
-    // Confirm delete handler
+
     confirmDeleteBtn.addEventListener('click', function() {
-        // Here you would typically send an AJAX request to delete the project
-        // For demonstration, we'll just remove the card from the DOM
         const card = document.querySelector(`.card[data-project-id="${currentProjectId}"]`);
         card.remove();
         hideModal(deleteModal);
     });
 
-    // Cancel delete handler
     cancelDeleteBtn.addEventListener('click', function() {
         hideModal(deleteModal);
     });
 
-    // Close modal when clicking on the close button or outside the modal
     window.addEventListener('click', function(event) {
         if (event.target.classList.contains('close') || event.target === editModal || event.target === deleteModal) {
             hideModal(editModal);
@@ -83,3 +75,59 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+
+
+
+
+
+
+const modal = document.getElementById("videoModal");
+const span = document.getElementsByClassName("close")[0];
+const cards = document.getElementsByClassName("card");
+const iframe = document.getElementById("videoIframe");
+
+for (let card of cards) {
+    card.addEventListener('click', function(event) {
+        if (!event.target.classList.contains('start-tracking')) {
+            const videoId = this.getAttribute("data-video-id");
+            iframe.src = "https://www.youtube.com/embed/" + videoId;
+            modal.style.display = "block";
+        }
+    });
+}
+span.onclick = function() {
+    modal.style.display = "none";
+    iframe.src = "";
+}
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+        iframe.src = "";
+    }
+}
+const startButtons = document.getElementsByClassName("start-tracking");
+function simulateTracking(button, progressBar) {
+    let progress = 0;
+    button.disabled = true;
+    button.textContent = 'Tracking...';
+
+    const interval = setInterval(function() {
+        progress += 1;
+        progressBar.style.width = progress + '%';
+        if (progress >= 100) {
+            clearInterval(interval);
+            button.textContent = 'Tracking Complete';
+            button.disabled = false;
+        }
+    }, 50);
+}
+
+
+for (let button of startButtons) {
+    button.addEventListener('click', function() {
+        const card = this.closest('.card');
+        const progressBar = card.querySelector('.progress');
+        simulateTracking(this, progressBar);
+    });
+}
