@@ -133,8 +133,6 @@
         <nav class="sidebar">
             <ul>
                 <li class="active"><i class="material-icons">dashboard</i> Dashboard</li>
-                <li><i class="material-icons">content_copy</i> Content</li>
-                <li><i class="material-icons">analytics</i> Analytics</li>
             </ul>
         </nav>
         <main class="content">
