@@ -1,15 +1,19 @@
 import imageio
 from ultralytics import YOLO
 import sys
+import os
 
 # # Đường dẫn mô hình YOLO
 #
 # model_path = "C:/Users/Dang Van Cuong/Downloads/yolov10n.pt"
-model_path = "C:/Users/USER/Downloads/yolov10n.pt"
+model_path_1 = "D:/TERM5/NETWORK_PROGRAMMING/final_project/yolov10n.pt"
+
 
 def main(video_path, output_path, model_path):
-    # Tải mô hình YOLOv10
+
+
     model = YOLO(model_path)
+
 
     # Mở video đầu vào
     reader = imageio.get_reader(video_path)

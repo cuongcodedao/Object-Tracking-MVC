@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -81,10 +82,12 @@ public class ProjectServlet extends HttpServlet {
 			existProject.setName(name);
 			existProject.setDescription(description);
 			projectBO.update(existProject);
+			response.sendRedirect("/home");
 		}
 		else if (mod.equals("delete")){
 			String id = request.getParameter("id");
 			projectBO.delete(Integer.parseInt(id));
+			response.sendRedirect("/home");
 		}
     }
 }
