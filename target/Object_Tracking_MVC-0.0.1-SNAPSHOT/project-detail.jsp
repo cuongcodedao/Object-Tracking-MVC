@@ -114,18 +114,38 @@
         .tracking-btn:hover, .cancel-btn:hover {
             opacity: 0.9;
         }
+        .logout {
+            position: relative;
+            padding: 10px 15px;
+            color: #535252;
+            text-decoration: none;
+            font-weight: 500;
+            border: thin solid transparent;
+            vertical-align: center;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin: 0 5px;
+
+
+        }
+        .logout:hover {
+            color: #000000;
+            border: 2px solid #1a1a1a;
+            border-radius: 20px;
+            transition: all 0.3s ease-in;
+        }
 
     </style>
 </head>
 <body onload="onload()">
     <header>
         <div class="header-left">
-            <button class="menu-button"><i class="material-icons">menu</i></button>
-            <span style="color: #7f56f3; font-size: 24px; font-weight: 500;">O-Tracking</span>
+            <a href="home" class="logo" style="margin-left:15px; text-decoration: none; :hover{color: #7f56f3}"><span style="color: #7f56f3; font-size: 24px; font-weight: 500; text-decoration: none;">O-Tracking</span></a>
         </div>
         <div class="header-right">
-            <i class="material-icons">help_outline</i>
             <i class="material-icons">notifications</i>
+            <a href="logout" class="logout"><span class="material-icons">logout</span>Log out</a>
             <div class="user-avatar">A</div>
         </div>
     </header>

@@ -12,123 +12,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/style_Home.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-        /* Modal styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-        .modal-content {
-            background-color: #fff;
-            margin: 10% auto;
-            padding: 20px;
-            border-radius: 8px;
-            width: 50%;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .close:hover,
-        .close:focus {
-            color: #000;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .form-group input[type="text"],
-        .form-group input[type="file"] {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .form-group button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .form-group button:hover {
-            background-color: #0056b3;
-        }
-        .logout {
-            position: relative;
-            padding: 10px 15px;
-            color: #606060;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        .logout:hover {
-            color: #065fd4;
-            transition: all 0.3s ease-in;
-        }
-        .card-link {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            text-decoration: none;
-        }
-        .video-content {
-            align-self: flex-start;
-        }
-        .card {
-            background-color: #fff;
-            border-radius: 4px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-            overflow: hidden;
-            transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-        }
-
-        .card:hover {
-            box-shadow: 0 10px 18px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-            scale: 1.01;
-        }
-        .card h2 {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            text-decoration: none;
-            text-transform: capitalize;
-            color: #1a1a1a;
-        }
-        .card p {
-            font-size: 14px;
-            color: #606060;
-            margin-bottom: 8px;
-            text-decoration: none;
-        }
-        .card h3 {
-            font-size: 24px;
-            font-weight: 400;
-            margin-bottom: 16px;
-        }
-
-
-
-
-    </style>
 </head>
 <body>
     <%
@@ -137,13 +20,12 @@
     %>
     <header>
         <div class="header-left">
-            <button class="menu-button"><i class="material-icons">menu</i></button>
-            <span style="color: #7f56f3; font-size: 24px; font-weight: 500;">O-Tracking</span>
+            <a href="home" class="logo" style=" margin-left:15px; text-decoration: none; :hover{color: #7f56f3}"><span style="color: #7f56f3; font-size: 24px; font-weight: 500; text-decoration: none;">O-Tracking</span></a>
         </div>
         <div class="header-right">
             <button class="create-button" id="openModal"><i class="material-icons">video_call</i> CREATE</button>
             <i class="material-icons">notifications</i>
-            <a href="logout" class="logout">Log out</a>
+            <a href="logout" class="logout"><span class="material-icons">logout</span>Log out</a>
             <div class="user-avatar">A</div>
 
         </div>
@@ -173,12 +55,23 @@
                                 </div>
                             </div>
                             <div class="action">
-                                <button type="button" class="delete-btn"><i class="fa fa-trash" aria-hidden="true"></i></button>
-<%--                                <button type="button" ><i class="fa fa-trash" aria-hidden="true"></i></button>--%>
+                                <div class="button delete-btn" id="deleteBtn" >
+                                    <div class="button-wrapper">
+                                        <div class="text">Delete</div>
+                                        <span class="icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#ffffff" d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
+                                        </span>
+                                    </div>
+                                </div>
 
-                                <button id = "editBtn" class = "edit-btn" type="button" ><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-                                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
-                                </svg></button>
+                                <div class="button edit-btn" id="editBtn" >
+                                    <div class="button-wrapper">
+                                        <div class="text">Edit</div>
+                                        <span class="icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="#ffffff" d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </a>
                     </div>
