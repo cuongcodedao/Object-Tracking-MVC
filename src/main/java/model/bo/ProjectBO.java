@@ -109,8 +109,10 @@ class Track extends Thread {
     private int project_id;
     private YoloVersion yolover;
     private ProjectDAO projectDAO = new ProjectDAO();
-    private static final String pythonScriptPath = "C:\\Users\\quock\\IdeaProjects\\Object-Tracking-MVC\\python.py";
-    private static String pythonExecutePath = "C:\\Users\\quock\\anaconda3\\envs\\pytorch\\python.exe" ;
+//    private static final String pythonScriptPath = "C:\\Users\\quock\\IdeaProjects\\Object-Tracking-MVC\\python.py";
+    private static final String pythonScriptPath = "C:\\Users\\USER\\Desktop\\LTM\\python.py";
+//    private static String pythonExecutePath = "C:\\Users\\quock\\anaconda3\\envs\\pytorch\\python.exe" ;
+    private static String pythonExecutePath = "python" ;
 
 
 
