@@ -27,6 +27,12 @@ public class UserServlet extends HttpServlet {
                 response.sendRedirect("login.jsp");
             }
         }
+        else if(url.contains("/logout")) {
+            HttpSession session = request.getSession();
+            session.invalidate();
+            response.sendRedirect("login");
+        }
+
     }
 
     @Override

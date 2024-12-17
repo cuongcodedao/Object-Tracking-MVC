@@ -143,7 +143,7 @@
         <div class="header-right">
             <button class="create-button" id="openModal"><i class="material-icons">video_call</i> CREATE</button>
             <i class="material-icons">notifications</i>
-            <a href="#" class="logout">Log out</a>
+            <a href="logout" class="logout">Log out</a>
             <div class="user-avatar">A</div>
 
         </div>
