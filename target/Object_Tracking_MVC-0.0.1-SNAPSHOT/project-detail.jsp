@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="model.bean.Project" %>
 <%@ page import="model.bean.ProjectStatus" %>
-<%@ page import="model.bean.User" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -118,11 +117,7 @@
 
     </style>
 </head>
-<body>
-<%
-    User user = (User) request.getSession().getAttribute("user");
-    if(user==null) response.sendRedirect("login.jsp");
-%>
+<body onload="onload()">
     <header>
         <div class="header-left">
             <button class="menu-button"><i class="material-icons">menu</i></button>
@@ -174,12 +169,7 @@
         const videoPlayer = document.getElementById("video-player");
         const nameProject = document.querySelector(".project-name");
         const progressContainer = document.querySelector(".progress-container");
-        const btnTracking = document.querySelector(".tracking-btn");
         var intervalId;
-        if (!btnTracking) {
-            intervalId = setInterval(fetchProjectStatus, 5000);
-        }
-
         function trackingCancelToggle(element) {
             const xhr = new XMLHttpRequest();
             const url = element.classList.contains("tracking-btn")
@@ -233,6 +223,12 @@
                     console.error("Lỗi khi lấy tiến độ:", error);
                     progressElement.textContent = "Lỗi kết nối.";
                 });
+        }
+        function onload() {
+            element = document.querySelector(".cancel-btn");
+            if(element){
+                intervalId = setInterval(fetchProjectStatus, 5000);
+            }
         }
     </script>
 </body>
