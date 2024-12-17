@@ -110,7 +110,10 @@ class Track extends Thread {
     private int project_id;
     private YoloVersion yolover;
     private ProjectDAO projectDAO = new ProjectDAO();
-    private static final String pythonScriptPath = "C:\\Users\\Dang Van Cuong\\LTM-workspace\\Object_Tracking_MVC\\python.py";
+    private static final String pythonScriptPath = "C:\\Users\\quock\\IdeaProjects\\Object-Tracking-MVC\\python.py";
+    private static String pythonExecutePath = "C:\\Users\\quock\\anaconda3\\envs\\pytorch\\python.exe" ;
+
+
 
     public Track(String inputPath, String outputPath, int id, YoloVersion yolover) {
         this.inputPath = inputPath;
@@ -127,7 +130,7 @@ class Track extends Thread {
     public void run() {
         try {
             ProcessBuilder pb = new ProcessBuilder(
-                    "python",
+                    pythonExecutePath,
                     pythonScriptPath,
                     inputPath,
                     outputPath,

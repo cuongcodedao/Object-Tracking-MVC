@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const editModal = document.getElementById('editModal');
     const deleteModal = document.getElementById('deleteModal');
+    const createModal = document.getElementById('createModal');
     const editForm = document.getElementById('editForm');
     const editProjectId = document.getElementById('editProjectId');
     const editProjectName = document.getElementById('editProjectName');
@@ -25,13 +26,16 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             e.stopPropagation();
             const card = this.closest('.card');
-            const projectId = card.getAttribute('data-project-id');
+            const projectId = card.querySelector("input[type='hidden']").value;
             const projectName = card.querySelector('.video-title').textContent;
             const projectDescription = card.querySelector('.video-description').textContent;
 
             editProjectId.value = projectId;
             editProjectName.value = projectName;
             editProjectDescription.value = projectDescription;
+            editProjectName.setAttribute('required', 'required');
+            editForm.action = "project?mod=edit&id=" + projectId;
+
 
             showModal(editModal);
         });
@@ -41,27 +45,36 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            currentProjectId = this.closest('.card').getAttribute('data-project-id');
+            const card = this.closest('.card');
+            currentProjectId = card.querySelector("input[type='hidden']").value;
             showModal(deleteModal);
         });
     });
 
-    // Edit form submit handler
-    editForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const projectId = editProjectId.value;
-        const card = document.querySelector(`.card[data-project-id="${projectId}"]`);
-        card.querySelector('.video-title').textContent = editProjectName.value;
-        card.querySelector('.video-description').textContent = editProjectDescription.value;
 
-        hideModal(editModal);
-    });
+
 
 
     confirmDeleteBtn.addEventListener('click', function() {
-        const card = document.querySelector(`.card[data-project-id="${currentProjectId}"]`);
-        card.remove();
-        hideModal(deleteModal);
+        fetch("project?mod=delete&id=" + currentProjectId, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: "id=" + currentProjectId,
+        })
+            .then(response => {
+
+                if (!response.ok) {
+                    throw new Error(`Server returned error: ${response.status}`);
+                }
+
+
+                window.location.reload();
+            })
+            .catch(error => console.error("Error:", error));
+
+
     });
 
     cancelDeleteBtn.addEventListener('click', function() {
@@ -72,6 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (event.target.classList.contains('close') || event.target === editModal || event.target === deleteModal) {
             hideModal(editModal);
             hideModal(deleteModal);
+            hideModal(createModal);
         }
     });
 });

@@ -162,6 +162,7 @@
                     <div class="card" data-video-id="dQw4w9WgXcQ">
                         <a href="project-detail?id=<%=project.getId()%>" class="card-link">
                             <img src="https://img.youtube.com/vi/Yla5i5tzXKE/0.jpg" alt="Video Thumbnail" class="thumbnail">
+                            <input type="hidden" id = "data-project-id" value="<%=project.getId()%>" >
                             <div class="video-content">
                                 <h2 class="video-title"><%=project.getName()%></h2>
                                 <p class="video-description"><%=project.getDescription()%></p>
@@ -173,6 +174,11 @@
                             </div>
                             <div class="action">
                                 <button type="button" class="delete-btn"><i class="fa fa-trash" aria-hidden="true"></i></button>
+<%--                                <button type="button" ><i class="fa fa-trash" aria-hidden="true"></i></button>--%>
+
+                                <button id = "editBtn" class = "edit-btn" type="button" ><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
+                                </svg></button>
                             </div>
                         </a>
                     </div>
@@ -199,12 +205,12 @@
                     <label for="yoloVersion">Select YOLO Model:</label>
                     <select id="yoloVersion" name="yoloVersion" required>
                         <option value="1">YOLOv5</option>
-                        <option value="2">YOLOv6</option>
-                        <option value="3">YOLOv7</option>
+<%--                        <option value="2">YOLOv6</option>--%>
+<%--                        <option value="3">YOLOv7</option>--%>
                         <option value="4">YOLOv8</option>
-                        <option value="5">YOLOv9</option>
+<%--                        <option value="5">YOLOv9</option>--%>
                         <option value="6">YOLOv10</option>
-                        <option value="7">YOLOv11</option>
+<%--                        <option value="7">YOLOv11</option>--%>
                     </select>
                 </div>
                 <div class="form-group">
@@ -223,17 +229,17 @@
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Edit Project</h2>
-            <form id="editForm" action="project?id=">
-                <input type="hidden" id="editProjectId">
+            <form id="editForm" action="project?id=" method="post">
+                <input type="hidden" id="editProjectId" name = "id">
                 <div class="form-group">
                     <label for="editProjectName">Project Name</label>
-                    <input type="text" id="editProjectName" required>
+                    <input type="text" id="editProjectName" name="name" required>
                 </div>
                 <div class="form-group">
                     <label for="editProjectDescription">Project Description</label>
-                    <textarea id="editProjectDescription" required></textarea>
+                    <textarea id="editProjectDescription" name="description" required></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <button type="button" id = "saveBtn" class="btn btn-primary">Save Changes</button>
             </form>
         </div>
     </div>
@@ -254,6 +260,8 @@
         const modal1 = document.getElementById("createModal");
         const openModalBtn = document.getElementById("openModal");
         const closeModalBtn = document.getElementById("closeModal");
+        const editModal = document.getElementById("editModal");
+        const editBtn = document.getElementById("editBtn");
 
         openModalBtn.onclick = function() {
             modal1.style.display = "block";
@@ -261,7 +269,9 @@
         };
 
         closeModalBtn.onclick = function() {
-            modal1.style.display = "none";
+            modal1.classList.remove('show');
+            setTimeout(() => modal1.style.display = 'none', 300);
+
         };
 
         window.onclick = function(event) {
@@ -269,6 +279,16 @@
                 modal1.style.display = "none";
             }
         };
+
+        document.getElementById("saveBtn").onclick = function() {
+            if(document.getElementById("editProjectName").value === "" ){
+                alert("Project name cannot be empty");
+                return;
+            }
+            document.getElementById("editForm").submit();
+        };
+
+
     </script>
 <script src="home.js"></script>
 </body>
