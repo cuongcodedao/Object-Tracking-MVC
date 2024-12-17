@@ -120,7 +120,7 @@
             color: #535252;
             text-decoration: none;
             font-weight: 500;
-            border: thin solid transparent;
+            border: 2px solid transparent;
             vertical-align: center;
             display: flex;
             align-items: center;

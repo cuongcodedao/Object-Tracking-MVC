@@ -11,8 +11,13 @@ model_path_1 = "D:/TERM5/NETWORK_PROGRAMMING/final_project/yolov10n.pt"
 
 def main(video_path, output_path, model_path):
 
+    current_dir = os.path.dirname(os.path.abspath(__file__))
 
-    model = YOLO(model_path)
+
+    path = os.path.join(current_dir, 'modelAI', model_path)
+
+
+    model = YOLO(path)
 
 
     # Mở video đầu vào

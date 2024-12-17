@@ -103,7 +103,7 @@
                         <option value="4">YOLOv8</option>
 <%--                        <option value="5">YOLOv9</option>--%>
                         <option value="6">YOLOv10</option>
-<%--                        <option value="7">YOLOv11</option>--%>
+                        <option value="7">YOLOv11</option>
                     </select>
                 </div>
                 <div class="form-group">
