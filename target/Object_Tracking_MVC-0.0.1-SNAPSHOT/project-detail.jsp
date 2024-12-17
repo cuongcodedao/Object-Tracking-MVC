@@ -117,7 +117,7 @@
 
     </style>
 </head>
-<body>
+<body onload="onload()">
     <header>
         <div class="header-left">
             <button class="menu-button"><i class="material-icons">menu</i></button>
@@ -223,6 +223,13 @@
                     console.error("Lỗi khi lấy tiến độ:", error);
                     progressElement.textContent = "Lỗi kết nối.";
                 });
+        }
+        function onload() {
+            element = document.querySelector(".cancel-btn");
+            if(element){
+                intervalId = setInterval(fetchProjectStatus, 5000);
+            }
+
         }
     </script>
 </body>
