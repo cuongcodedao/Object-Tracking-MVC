@@ -20,8 +20,7 @@
     %>
     <header>
         <div class="header-left">
-            <button class="menu-button"><i class="material-icons">menu</i></button>
-            <span style="color: #7f56f3; font-size: 24px; font-weight: 500;">O-Tracking</span>
+            <a href="home" class="logo" style=" margin-left:15px; text-decoration: none; :hover{color: #7f56f3}"><span style="color: #7f56f3; font-size: 24px; font-weight: 500; text-decoration: none;">O-Tracking</span></a>
         </div>
         <div class="header-right">
             <button class="create-button" id="openModal"><i class="material-icons">video_call</i> CREATE</button>
