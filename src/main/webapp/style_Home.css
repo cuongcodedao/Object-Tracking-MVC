@@ -293,7 +293,7 @@ h1 {
     color: #535252;
     text-decoration: none;
     font-weight: 500;
-    border: thin solid transparent;
+    border: 2px solid transparent;
     vertical-align: center;
     display: flex;
     align-items: center;
@@ -304,7 +304,7 @@ h1 {
 }
 .logout:hover {
     color: #000000;
-    border: thin solid #1a1a1a;
+    border: 2px solid #1a1a1a;
     border-radius: 20px;
     transition: all 0.3s ease-in;
 }
