@@ -6,19 +6,10 @@ import model.bean.User;
 import java.sql.*;
 
 public class UserDAO {
-    static final String DB_URL = "jdbc:mysql://localhost/objecttracking";
-    static final String USER = "root";
-//    static final String PASS = "123456";
-    static final String PASS = "Nmdung04@";
     private Connection conn;
 
     public UserDAO() {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        this.conn = DAOUtils.getConnection();
     }
 
     public User login(String username, String password) {
