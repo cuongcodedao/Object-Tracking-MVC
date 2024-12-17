@@ -95,6 +95,9 @@ input:focus {
 .form-links {
     text-align: right;
     margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .forgot-password {
@@ -120,6 +123,32 @@ input:focus {
 
 .login-button:hover {
     background: #333;
+}
+
+.signup-prompt {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #333;
+}
+.signup-button {
+    display: inline-block;
+    margin: 10px auto 0;
+    padding: 10px 20px 13px;
+    background-color: #fff;
+    color: #1a1a1a;
+    text-decoration: none;
+    border-radius: 8px;
+    text-align: center;
+    line-height: 100%;
+    border: thin solid;
+    position: relative;
+    transition: background-color 0.2s;
+}
+.signup-button:hover {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    transition: background-color 0.2s;
 }
 
 .social-login {
