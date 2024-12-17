@@ -229,7 +229,6 @@
             if(element){
                 intervalId = setInterval(fetchProjectStatus, 5000);
             }
-
         }
     </script>
 </body>
